@@ -23,19 +23,20 @@
       }
     },
       methods: {
-          sum () {
+          async sum () {
             if(this.firstNumber === null || this.secondNumber === null) {
                 return alert('Silahkan isi angka!')
             }
-             axios.post("http://127.0.0.1:3000/sum/", {
-                 firstNumber: parseInt(this.firstNumber),
-                 secondNumber: parseInt(this.secondNumber)
-             }).then(result => {
-                 this.sumResult = result.data.sum;
-                 alert(result.data.message)
-             }, error => {
-                 console.error(error);
-             });
+            try {
+                const response = await axios.post("http://127.0.0.1:3000/sum/", {
+                    firstNumber: parseInt(this.firstNumber),
+                    secondNumber: parseInt(this.secondNumber)
+                })
+                this.sumResult = response.data.sum
+                alert(response.data.message)
+            } catch (e) {
+                alert(e.message)
+            }
         },
           goToDetailPage () {
               this.$navigateTo(Dashboard);
